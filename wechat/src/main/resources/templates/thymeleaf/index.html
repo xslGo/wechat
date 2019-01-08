@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"/>
+    <title>测试模板引擎</title>
+</head>
+<body>
+
+    Thymeleaf 模板
+    <h1 th:text="${name}">hello world</h1>
+    <input type="button" id="checkJsApi" value="检查API">
+    <br/>
+    <input type="button" id="chooseImage" value="拍照">
+
+    <script src="http://res.wx.qq.com/open/js/jweixin-1.4.0.js"></script>
+    <script>
+        wx.config({
+            debug: true,
+            appId: 'wxf55b2f3af65b45dc',
+            timestamp: '1546072245',
+            nonceStr: '346857699',
+            signature: '4e931731d59c79e31920ee1a27e874037ca4564e',
+            jsApiList: ['chooseImage', 'previewImage', 'uploadImage', 'downloadImage', 'getLocalImgData']
+        });
+
+        wx.ready(function (res) {
+            document.querySelector('#checkJsApi').onclick = function () {
+                wx.checkJsApi({
+                    jsApiList: ['chooseImage', 'previewImage', 'uploadImage', 'downloadImage', 'getLocalImgData'],
+                    success: function (res) {
+                        alert(JSON.stringify(res));
+                    },
+
+                    fail:function (res) {
+                        alert(JSON.stringify(res));
+                    },
+
+                    complete:function (res) {
+                        alert(JSON.stringify(res));
+                    }
+                });
+            }
+        });
+
+        document.querySelector("#chooseImage").onclick = function () {
+            wx.chooseImage({
+                count: 4,
+                sizeType: ['original', 'compressed'],
+                sourceType: ['album', 'camera'],
+                success: function (res) {
+                    var localIds = res.localIds;
+                    alert("选定照片的本地ID列表=>" + JSON.stringify(localIds));
+                }
+            });
+        }
+
+
+    </script>
+</body>
+</html>
